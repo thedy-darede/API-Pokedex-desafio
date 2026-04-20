@@ -1,0 +1,23 @@
+service: desafio-api-pokedex
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: python3.11
+  region: us-east-1
+  stage: ${opt:stage, 'dev'}
+
+plugins:
+  - serverless-offline
+  - serverless-python-requirements
+
+custom:
+  serverless-offline:
+    httpPort: 3000
+    noPrependStageInUrl: true
+  pythonRequirements:
+    dockerizePip: false
+
+functions:
+  - ${file(./src/controllers/functions.yml)}
