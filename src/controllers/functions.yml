@@ -1,0 +1,79 @@
+listarTreinadores:
+  handler: src/controllers/treinadores/listar.handler
+  events:
+    - http:
+        path: /treinadores
+        method: GET
+        cors: true
+
+buscarTreinador:
+  handler: src/controllers/treinadores/buscar.handler
+  events:
+    - http:
+        path: /treinadores/{id}
+        method: GET
+        cors: true
+
+cadastrarTreinador:
+  handler: src/controllers/treinadores/cadastrar.handler
+  events:
+    - http:
+        path: /treinadores
+        method: POST
+        cors: true
+
+atualizarTreinador:
+  handler: src/controllers/treinadores/atualizar.handler
+  events:
+    - http:
+        path: /treinadores/{id}
+        method: PUT
+        cors: true
+
+listarPokemonsDeTreinador:
+  handler: src/controllers/treinadores/listar_pokemons.handler
+  events:
+    - http:
+        path: /treinadores/{id}/pokemons
+        method: GET
+        cors: true
+
+listarPokemons:
+  handler: src/controllers/pokemons/listar.handler
+  events:
+    - http:
+        path: /pokemons
+        method: GET
+        cors: true
+
+buscarPokemon:
+  handler: src/controllers/pokemons/buscar.handler
+  events:
+    - http:
+        path: /pokemons/{id}
+        method: GET
+        cors: true
+
+cadastrarPokemon:
+  handler: src/controllers/pokemons/cadastrar.handler
+  events:
+    - http:
+        path: /pokemons
+        method: POST
+        cors: true
+
+atualizarPokemon:
+  handler: src/controllers/pokemons/atualizar.handler
+  events:
+    - http:
+        path: /pokemons/{id}
+        method: PUT
+        cors: true
+
+batalhar:
+  handler: src/controllers/batalhas/batalhar.handler
+  events:
+    - http:
+        path: /batalhas
+        method: POST
+        cors: true
