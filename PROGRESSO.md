@@ -27,7 +27,7 @@ API REST com Serverless Framework (Python 3.11) para gerenciar treinadores, pok�
 ### Batalhas
 | Endpoint | Handler | Status |
 |---|---|---|
-| `POST /batalhas` | `batalhar.py` | ❌ Não criado |
+| `POST /batalhas` | `batalhar.py` | ✅ Criado |
 
 ---
 
@@ -90,7 +90,7 @@ Typo `treinado_id` → `treinador_id`
 3. [x] ~~Criar `atualizar.py` para treinadores~~
 4. [x] ~~Criar `listar_pokemons.py` para treinadores~~
 5. [x] ~~Criar handlers de pokémons (listar, buscar, cadastrar, atualizar)~~
-6. [ ] Criar handler de batalhas
+6. [x] ~~Criar handler de batalhas~~
 7. [ ] Resolver inconsistência de versão do Serverless
 8. [ ] Adicionar testes
 9. [ ] Configurar pytest para pasta `teste/`
