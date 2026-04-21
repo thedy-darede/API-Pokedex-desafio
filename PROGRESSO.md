@@ -1,0 +1,84 @@
+# Desafio API Pokédex — Diário de Progresso
+
+## Visão Geral
+API REST com Serverless Framework (Python 3.11) para gerenciar treinadores, pokémons e batalhas.
+
+---
+
+## Status dos Endpoints
+
+### Treinadores
+| Endpoint | Handler | Status |
+|---|---|---|
+| `GET /treinadores` | `listar.py` | ✅ Criado |
+| `GET /treinadores/{id}` | `buscar.py` | ✅ Criado |
+| `POST /treinadores` | `cadastrar.py` | ✅ Criado |
+| `PUT /treinadores/{id}` | `atualizar.py` | ❌ Não criado |
+| `GET /treinadores/{id}/pokemons` | `listar_pokemons.py` | ❌ Não criado |
+
+### Pokémons
+| Endpoint | Handler | Status |
+|---|---|---|
+| `GET /pokemons` | `listar.py` | ❌ Não criado |
+| `GET /pokemons/{id}` | `buscar.py` | ❌ Não criado |
+| `POST /pokemons` | `cadastrar.py` | ❌ Não criado |
+| `PUT /pokemons/{id}` | `atualizar.py` | ❌ Não criado |
+
+### Batalhas
+| Endpoint | Handler | Status |
+|---|---|---|
+| `POST /batalhas` | `batalhar.py` | ❌ Não criado |
+
+---
+
+## Módulos Auxiliares
+
+| Módulo | Status | Observação |
+|---|---|---|
+| `src/database/db.py` | ✅ Completo | Banco in-memory com lock, dados seed de exemplo |
+| `src/helpers/http_response.py` | ✅ Completo | Respostas padronizadas (200, 201, 400, 404, 422, 500) |
+| `src/helpers/validators.py` | ✅ Completo | Validações para treinador, pokémon e pokémon update |
+
+---
+
+## Bugs Encontrados
+
+### ~~Bug 1 — `buscar.py`: typo no nome da variável~~ ✅ Corrigido
+Typo `treinado_id` → `treinador_id`
+
+### ~~Bug 2 — `cadastrar.py`: `generate_id` sem parênteses~~ ✅ Corrigido
+`generate_id` → `generate_id()`
+
+---
+
+## Problemas de Configuração (pendentes da análise anterior)
+
+### 1. Versão do Serverless inconsistente
+- `package.json` usa `serverless: ^4.34.0`
+- `serverless.yml` tem `frameworkVersion: '3'`
+- **Ação:** Alinhar para a mesma versão
+
+### 2. `requirements.txt` sem dependências de runtime
+- Só tem `pytest`, `pytest-mock`, `requests` (dependências de teste)
+- Se for usar AWS (DynamoDB, etc.), adicionar `boto3`
+
+### 3. Pasta de testes `teste/`
+- `pytest` procura por `tests/` ou `test/` por padrão
+- Considerar renomear ou configurar `pytest.ini`
+
+---
+
+## Próximos Passos
+1. [x] ~~Corrigir Bug 1 — typo em `buscar.py`~~
+2. [x] ~~Corrigir Bug 2 — parênteses em `cadastrar.py`~~
+3. [ ] Criar `atualizar.py` para treinadores
+4. [ ] Criar `listar_pokemons.py` para treinadores
+5. [ ] Criar handlers de pokémons (listar, buscar, cadastrar, atualizar)
+6. [ ] Criar handler de batalhas
+7. [ ] Resolver inconsistência de versão do Serverless
+8. [ ] Adicionar testes
+9. [ ] Configurar pytest para pasta `teste/`
+
+---
+
+*Última atualização: 21/04/2026*

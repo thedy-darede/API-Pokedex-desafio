@@ -9,7 +9,7 @@ def handler(event, context):
             return bad_request("ID do treinador nao informado")
         treinador = get_by_id("treinadores", treinador_id)
         if not treinador:
-            return not_found(f"Treinador com ID '{treinado_id}' nao encontrado.")
+            return not_found(f"Treinador com ID '{treinador_id}' nao encontrado.")
 
         return ok(treinador)
     except Exception as e:

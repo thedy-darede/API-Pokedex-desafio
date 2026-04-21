@@ -13,7 +13,7 @@ def handler(event, context):
             return bad_request(err)
 
         treinador = {
-            "id": generate_id,
+            "id": generate_id(),
             "nome": data["nome"].strip(),
         }
 
