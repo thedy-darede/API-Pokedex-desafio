@@ -1,5 +1,5 @@
 from src.database.db import get_by_id
-from src.helpers.http_response ipmort ok, not_found, bad_request, server_error
+from src.helpers.http_response import ok, not_found, bad_request, server_error
 from src.helpers.validators import get_path_param
 
 def handler(event, context):
