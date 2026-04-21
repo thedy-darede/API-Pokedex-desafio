@@ -91,7 +91,7 @@ Typo `treinado_id` → `treinador_id`
 4. [x] ~~Criar `listar_pokemons.py` para treinadores~~
 5. [x] ~~Criar handlers de pokémons (listar, buscar, cadastrar, atualizar)~~
 6. [x] ~~Criar handler de batalhas~~
-7. [ ] Resolver inconsistência de versão do Serverless
+7. [x] ~~Resolver inconsistência de versão do Serverless~~ (atualizado para v4)
 8. [ ] Adicionar testes
 9. [ ] Configurar pytest para pasta `teste/`
 
