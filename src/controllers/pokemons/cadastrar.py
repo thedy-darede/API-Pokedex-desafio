@@ -1,5 +1,5 @@
 from src.database.db import insert, generate_id, get_by_id
-from src.helpers.http_response import create, bad_request, not_found, server_error
+from src.helpers.http_response import created, bad_request, not_found, server_error
 from src.helpers.validators import parse_body, validate_pokemon
 
 def handler(event, context):
@@ -12,9 +12,9 @@ def handler(event, context):
         if err:
             return bad_request(err)
 
-        treinador = get_by_id("treinador", data["treinador_id"])
+        treinador = get_by_id("treinadores", data["treinador_id"])
         if not treinador:
-            return not_found(f"Treinador com ID '{data["treinador_id"]}' nao encontrado.")
+            return not_found(f"Treinador com ID '{data['treinador_id']}' nao encontrado.")
         
 
         pokemon = {
