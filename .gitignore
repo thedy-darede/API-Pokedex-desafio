@@ -11,6 +11,9 @@ venv/
 .serverless/
 .webpack/
 
+# Banco local
+src/database/data.json
+
 # Ambiente
 .env
 .env.*
