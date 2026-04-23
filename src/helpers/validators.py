@@ -8,6 +8,8 @@ def parse_body(event: dict) -> tuple:
     """
     raw = event.get("body") or "{}"
     try:
+        if isinstance(raw, str):
+            raw = raw.encode("utf-8", errors="replace").decode("utf-8")
         data = json.loads(raw)
         if not isinstance(data, dict):
             return None, "O corpo da requisicao deve ser um objeto JSON."

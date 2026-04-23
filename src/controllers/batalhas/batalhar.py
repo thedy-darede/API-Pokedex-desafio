@@ -1,6 +1,7 @@
 from src.database.db import get_by_id
 from src.helpers.http_response import ok, bad_request, not_found, unprocessable, server_error
 from src.helpers.validators import parse_body
+import unicodedata
 
 _VANTAGENS = {
     "fogo": "planta",
@@ -10,10 +11,15 @@ _VANTAGENS = {
 
 
 def _normalizar_tipo(tipo: str) -> str:
-    return tipo.strip().lower()
+    """Normaliza o tipo removendo acentos, espacos e convertendo para minusculo."""
+    texto = tipo.strip().lower()
+    # Remove acentos: Água -> Agua -> agua
+    nfkd = unicodedata.normalize("NFKD", texto)
+    return "".join(c for c in nfkd if not unicodedata.combining(c))
 
 
 def _determinar_vencedor(atacante: dict, defensor: dict) -> dict:
+    # 1) Nivel mais alto vence
     if atacante["nivel"] != defensor["nivel"]:
         if atacante["nivel"] > defensor["nivel"]:
             vencedor, perdedor = atacante, defensor
@@ -26,6 +32,7 @@ def _determinar_vencedor(atacante: dict, defensor: dict) -> dict:
             "perdedor": {"id": perdedor["id"], "nome": perdedor["nome"]},
         }
 
+    # 2) Empate de nivel — tipo decide
     tipo_atk = _normalizar_tipo(atacante["tipo"])
     tipo_def = _normalizar_tipo(defensor["tipo"])
 
@@ -43,6 +50,7 @@ def _determinar_vencedor(atacante: dict, defensor: dict) -> dict:
             "perdedor": {"id": atacante["id"], "nome": atacante["nome"]},
         }
 
+    # 3) Mesmo nivel e mesmo tipo (ou sem relacao) — empate
     return {
         "resultado": "empate",
         "mensagem": "Os Pokemon possuem forca equivalente",

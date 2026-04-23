@@ -1,5 +1,6 @@
 import json
 import os
+import tempfile
 import uuid
 from threading import Lock
 
@@ -21,18 +22,42 @@ _SEED = {
 
 
 def _load() -> dict:
-    """Carrega o banco do arquivo JSON. Se nao existir, cria com os dados seed."""
+    """Carrega o banco do arquivo JSON. Se nao existir ou estiver corrompido, recria com seed."""
     if not os.path.exists(_DB_FILE):
         _save(_SEED)
-        return _SEED
-    with open(_DB_FILE, "r", encoding="utf-8") as f:
-        return json.load(f)
+        return json.loads(json.dumps(_SEED))
+    try:
+        with open(_DB_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except (json.JSONDecodeError, ValueError):
+        _save(_SEED)
+        return json.loads(json.dumps(_SEED))
+
+
+def _sanitize(obj):
+    """Remove surrogates invalidos de strings para evitar erros de encoding."""
+    if isinstance(obj, str):
+        return obj.encode("utf-8", errors="replace").decode("utf-8")
+    if isinstance(obj, dict):
+        return {_sanitize(k): _sanitize(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [_sanitize(item) for item in obj]
+    return obj
 
 
 def _save(db: dict) -> None:
-    """Salva o banco no arquivo JSON."""
-    with open(_DB_FILE, "w", encoding="utf-8") as f:
-        json.dump(db, f, ensure_ascii=False, indent=2)
+    """Salva o banco no arquivo JSON com escrita atomica."""
+    db = _sanitize(db)
+    dir_name = os.path.dirname(_DB_FILE)
+    fd, tmp_path = tempfile.mkstemp(dir=dir_name, suffix=".tmp")
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as f:
+            json.dump(db, f, ensure_ascii=False, indent=2)
+        os.replace(tmp_path, _DB_FILE)
+    except BaseException:
+        if os.path.exists(tmp_path):
+            os.remove(tmp_path)
+        raise
 
 
 def generate_id() -> str:
