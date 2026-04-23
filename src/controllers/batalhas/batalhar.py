@@ -82,6 +82,9 @@ def handler(event, context):
         if not defensor:
             return not_found(f"Pokemon defensor com ID '{def_id}' nao encontrado.")
 
+        if atacante["nome"].strip().lower() == defensor["nome"].strip().lower():
+            return unprocessable("Um Pokemon nao pode batalhar contra outro de mesma especie.")
+
         resultado = _determinar_vencedor(atacante, defensor)
         return ok(resultado)
     except Exception as e:
