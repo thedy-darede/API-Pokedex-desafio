@@ -1,7 +1,6 @@
 import json
 import os
 import tempfile
-import uuid
 from threading import Lock
 
 _lock = Lock()
@@ -10,13 +9,13 @@ _DB_FILE = os.path.join(os.path.dirname(__file__), "data.json")
 
 _SEED = {
     "treinadores": {
-        "ash-001": {"id": "ash-001", "nome": "Ash"},
-        "misty-002": {"id": "misty-002", "nome": "Misty"},
+        "1": {"id": 1, "nome": "Ash"},
+        "2": {"id": 2, "nome": "Misty"},
     },
     "pokemons": {
-        "pika-001": {"id": "pika-001", "nome": "Pikachu", "tipo": "Eletrico", "nivel": 10, "treinador_id": "ash-001"},
-        "bulb-002": {"id": "bulb-002", "nome": "Bulbasaur", "tipo": "Planta", "nivel": 7, "treinador_id": "ash-001"},
-        "star-003": {"id": "star-003", "nome": "Starmie", "tipo": "Agua", "nivel": 9, "treinador_id": "misty-002"},
+        "1": {"id": 1, "nome": "Pikachu", "tipo": "Eletrico", "nivel": 10, "treinador_id": 1},
+        "2": {"id": 2, "nome": "Bulbasaur", "tipo": "Planta", "nivel": 7, "treinador_id": 1},
+        "3": {"id": 3, "nome": "Starmie", "tipo": "Agua", "nivel": 9, "treinador_id": 2},
     },
 }
 
@@ -60,8 +59,13 @@ def _save(db: dict) -> None:
         raise
 
 
-def generate_id() -> str:
-    return str(uuid.uuid4())
+def generate_id(table: str) -> int:
+    """Gera o proximo ID numerico sequencial para a tabela."""
+    db = _load()
+    if not db[table]:
+        return 1
+    max_id = max(int(k) for k in db[table].keys())
+    return max_id + 1
 
 
 def get_all(table: str) -> list:
@@ -70,28 +74,29 @@ def get_all(table: str) -> list:
         return list(db[table].values())
 
 
-def get_by_id(table: str, id: str):
+def get_by_id(table: str, id) -> dict | None:
     with _lock:
         db = _load()
-        return db[table].get(id)
+        return db[table].get(str(id))
 
 
 def insert(table: str, record: dict) -> dict:
     with _lock:
         db = _load()
-        db[table][record["id"]] = record
+        db[table][str(record["id"])] = record
         _save(db)
         return record
 
 
-def update(table: str, id: str, data: dict):
+def update(table: str, id, data: dict):
     with _lock:
         db = _load()
-        if id not in db[table]:
+        key = str(id)
+        if key not in db[table]:
             return None
-        db[table][id].update(data)
+        db[table][key].update(data)
         _save(db)
-        return db[table][id]
+        return db[table][key]
 
 
 def find_where(table: str, **kwargs) -> list:

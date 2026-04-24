@@ -18,7 +18,7 @@ def handler(event, context):
         
 
         pokemon = {
-            "id": generate_id(),
+            "id": generate_id("pokemons"),
             "nome": data["nome"].strip(),
             "tipo": data["tipo"].strip(),
             "nivel": data["nivel"],

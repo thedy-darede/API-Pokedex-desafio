@@ -18,13 +18,17 @@ def parse_body(event: dict) -> tuple:
         return None, "Corpo da requisicao invalido. Envie um JSON valido."
 
 
-def get_path_param(event: dict, param: str) -> str | None:
+def get_path_param(event: dict, param: str):
     """
-    Extrai um path parameter do evento.
+    Extrai um path parameter do evento e converte para int se possivel.
     Ex: /treinadores/{id} -> get_path_param(event, "id")
     """
     try:
-        return event["pathParameters"][param]
+        value = event["pathParameters"][param]
+        try:
+            return int(value)
+        except (ValueError, TypeError):
+            return value
     except (KeyError, TypeError):
         return None
 
@@ -60,8 +64,10 @@ def validate_pokemon(data: dict) -> str | None:
         return "O campo 'nivel' deve ser um inteiro maior ou igual a 1."
 
     treinador_id = data.get("treinador_id")
-    if not treinador_id or not isinstance(treinador_id, str):
+    if treinador_id is None:
         return "O campo 'treinador_id' e obrigatorio."
+    if not isinstance(treinador_id, int):
+        return "O campo 'treinador_id' deve ser um numero inteiro."
 
     return None
 
