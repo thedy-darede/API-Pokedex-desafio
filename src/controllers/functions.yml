@@ -1,5 +1,8 @@
 listarTreinadores:
   handler: src/controllers/treinadores/listar.handler
+  memorySize: 128
+  timeout: 3
+
   events:
     - http:
         path: /treinadores
@@ -8,6 +11,9 @@ listarTreinadores:
 
 buscarTreinador:
   handler: src/controllers/treinadores/buscar.handler
+  memorySize: 128
+  timeout: 3
+
   events:
     - http:
         path: /treinadores/{id}
@@ -16,6 +22,9 @@ buscarTreinador:
 
 cadastrarTreinador:
   handler: src/controllers/treinadores/cadastrar.handler
+  memorySize: 128
+  timeout: 3
+
   events:
     - http:
         path: /treinadores
@@ -24,6 +33,9 @@ cadastrarTreinador:
 
 atualizarTreinador:
   handler: src/controllers/treinadores/atualizar.handler
+  memorySize: 128
+  timeout: 3
+
   events:
     - http:
         path: /treinadores/{id}
@@ -32,6 +44,9 @@ atualizarTreinador:
 
 listarPokemonsDeTreinador:
   handler: src/controllers/treinadores/listar_pokemons.handler
+  memorySize: 128
+  timeout: 3
+
   events:
     - http:
         path: /treinadores/{id}/pokemons
@@ -40,6 +55,9 @@ listarPokemonsDeTreinador:
 
 listarPokemons:
   handler: src/controllers/pokemons/listar.handler
+  memorySize: 128
+  timeout: 3
+
   events:
     - http:
         path: /pokemons
@@ -48,6 +66,9 @@ listarPokemons:
 
 buscarPokemon:
   handler: src/controllers/pokemons/buscar.handler
+  memorySize: 128
+  timeout: 3
+
   events:
     - http:
         path: /pokemons/{id}
@@ -56,6 +77,9 @@ buscarPokemon:
 
 cadastrarPokemon:
   handler: src/controllers/pokemons/cadastrar.handler
+  memorySize: 128
+  timeout: 3
+
   events:
     - http:
         path: /pokemons
@@ -64,6 +88,9 @@ cadastrarPokemon:
 
 atualizarPokemon:
   handler: src/controllers/pokemons/atualizar.handler
+  memorySize: 128
+  timeout: 3
+
   events:
     - http:
         path: /pokemons/{id}
@@ -72,6 +99,8 @@ atualizarPokemon:
 
 batalhar:
   handler: src/controllers/batalhas/batalhar.handler
+  memorySize: 256
+  timeout: 5
   events:
     - http:
         path: /batalhas
