@@ -1,4 +1,13 @@
 import json
+from decimal import Decimal
+
+
+class _DecimalEncoder(json.JSONEncoder):
+    """Converte Decimal do DynamoDB para int ou float."""
+    def default(self, obj):
+        if isinstance(obj, Decimal):
+            return int(obj) if obj == int(obj) else float(obj)
+        return super().default(obj)
 
 
 def _build_response(status_code: int, body) -> dict:
@@ -8,7 +17,7 @@ def _build_response(status_code: int, body) -> dict:
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "*",
         },
-        "body": json.dumps(body, ensure_ascii=False),
+        "body": json.dumps(body, ensure_ascii=False, cls=_DecimalEncoder),
     }
 
 

@@ -12,7 +12,7 @@ _TABLES = {
 }
 
 
-def generate_id() -> str:
+def generate_id(table: str = None) -> str:
     return str(uuid.uuid4())
 
 

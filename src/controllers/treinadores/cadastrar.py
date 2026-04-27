@@ -1,4 +1,4 @@
-from src.database.db import insert, generate_id
+from src.database.db_dynamodb import insert, generate_id
 from src.helpers.http_response import created, bad_request, server_error
 from src.helpers.validators import parse_body, validate_treinador
 

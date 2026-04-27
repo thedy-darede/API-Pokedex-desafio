@@ -1,4 +1,4 @@
-from src.database.db import get_all
+from src.database.db_dynamodb import get_all
 from src.helpers.http_response import ok, server_error
 
 def handler(event, context):

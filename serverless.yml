@@ -9,23 +9,23 @@ provider:
   stage: ${opt:stage, 'dev'}
   memorySize: 128
   timeout: 3
-  # iam:
-  #   role:
-  #     statements:
-  #     - Effect: Allow
-  #       Action:
-  #         - dynamodb:Query
-  #         - dynamodb:Scan
-  #         - dynamodb:GetItem
-  #         - dynamodb:PutItem
-  #         - dynamodb:UpdateItem
-  #         - dynamodb:DeleteItem
-  #       Resource: 
-  #         - !GetAtt treinadoresTable.Arn
-  #         - !GetAtt PokemonsTable.Arn
-  # environment:
-  #   TREINADORES_TABLE: !Ref treinadoresTable
-  #   POKEMONS_TABLE: !Ref PokemonsTable
+  iam:
+    role:
+      statements:
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+          - dynamodb:Scan
+          - dynamodb:GetItem
+          - dynamodb:PutItem
+          - dynamodb:UpdateItem
+          - dynamodb:DeleteItem
+        Resource: 
+          - arn:aws:dynamodb:${self:provider.region}:*:table/desafio-api-pokedex-treinadores-dev
+          - arn:aws:dynamodb:${self:provider.region}:*:table/desafio-api-pokedex-pokemons-dev
+  environment:
+    TREINADORES_TABLE: desafio-api-pokedex-treinadores-dev
+    POKEMONS_TABLE: desafio-api-pokedex-pokemons-dev
 
 plugins:
   - serverless-offline
@@ -41,20 +41,20 @@ custom:
 functions:
   - ${file(./src/controllers/functions.yml)}
 
-# Aqui é onde as tabelas são criadas automaticamente
+# Tabelas criadas manualmente no console AWS
 # resources:
 #   Resources:
-#     TreinadoresTable:
+#     treinadoresTable:
 #       Type: AWS::DynamoDB::Table
 #       Properties:
 #         TableName: ${self:service}-treinadores-${self:provider.stage}
-#         BillingMode: PAY_PER_REQUEST    # Paga só pelo uso, sem provisionar
+#         BillingMode: PAY_PER_REQUEST
 #         AttributeDefinitions:
 #           - AttributeName: id
-#             AttributeType: S            # S = String
+#             AttributeType: S
 #         KeySchema:
 #           - AttributeName: id
-#             KeyType: HASH               # Partition Key
+#             KeyType: HASH
 #     PokemonsTable:
 #       Type: AWS::DynamoDB::Table
 #       Properties:

@@ -1,4 +1,4 @@
-from src.database.db import get_by_id, find_where
+from src.database.db_dynamodb import get_by_id, find_where
 from src.helpers.http_response import ok, bad_request, not_found, server_error
 from src.helpers.validators import get_path_param
 

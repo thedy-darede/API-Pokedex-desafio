@@ -1,4 +1,4 @@
-from src.database.db import update, get_by_id
+from src.database.db_dynamodb import update, get_by_id
 from src.helpers.http_response import ok, bad_request, not_found, server_error
 from src.helpers.validators import parse_body, validate_treinador, get_path_param
 

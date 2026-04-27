@@ -66,8 +66,10 @@ def validate_pokemon(data: dict) -> str | None:
     treinador_id = data.get("treinador_id")
     if treinador_id is None:
         return "O campo 'treinador_id' e obrigatorio."
-    if not isinstance(treinador_id, int):
-        return "O campo 'treinador_id' deve ser um numero inteiro."
+    if not isinstance(treinador_id, (int, str)):
+        return "O campo 'treinador_id' deve ser um numero inteiro ou string."
+    if isinstance(treinador_id, str) and not treinador_id.strip():
+        return "O campo 'treinador_id' e obrigatorio."
 
     return None
 
